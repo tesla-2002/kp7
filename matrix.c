@@ -64,9 +64,21 @@ void spmatrix_print (matrix* mat) {
 	vector_print(mat->value);
 } 
 
-//void stdmatrix_print (matrix* mat) {
+/*void stdmatrix_print (matrix* mat) {
+	int indrow = 0, indcol = 0, indval = 0;
+	for (indrow = 0; indrow < mat->row->size;) {
+		for (indcol = 0; indcol < mat->col->size;) {
+			if() {
+				printf("%d ", mat->value->elem[indval]);
+				indval++;
+			} else {
+				printf("0 ");
+			}
 
-//}
+			indcol++;
+		}
+	}
+}*/
 
 
 void vector_free (vector* vec) { 
