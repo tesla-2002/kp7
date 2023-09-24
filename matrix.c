@@ -9,9 +9,6 @@ vector* vector_create (vector* vec) {
 
 matrix* matrix_create (matrix* mat) {
 	mat = (matrix*)malloc(sizeof(matrix));
-	if(!mat) {
-		exit(2);
-	}
 	mat->row = NULL;
 	mat->row = vector_create(mat->row);
 	mat->col = NULL;
@@ -27,7 +24,7 @@ void vector_pushback (vector* vec, int value) {
 	vec->elem[vec->size - 1] = value;
 }
 
-matrix* get_matrix (FILE* input, matrix* mat) {
+/*matrix* get_matrix (FILE* input, matrix* mat) {
 	int value = 0, m = 0, n = 0, indrow = 0, indcol = 0;
 	fscanf(input, "%d %d", &m, &n);
 
@@ -48,7 +45,7 @@ matrix* get_matrix (FILE* input, matrix* mat) {
 	}
 
 	return mat;
-}
+}*/
 
 void vector_print(vector* vec) {
 	printf("(");
@@ -62,33 +59,50 @@ void spmatrix_print (matrix* mat) {
 	vector_print(mat->row);
 	vector_print(mat->col);
 	vector_print(mat->value);
+	printf("\n");
 } 
 
-/*void stdmatrix_print (matrix* mat) {
-	int indrow = 0, indcol = 0, indval = 0;
-	for (indrow = 0; indrow < mat->row->size;) {
-		for (indcol = 0; indcol < mat->col->size;) {
-			if() {
-				printf("%d ", mat->value->elem[indval]);
-				indval++;
-			} else {
-				printf("0 ");
-			}
+void stdmatrix_print (matrix* mat, int m, int n) {
+	int ind = 0;
+	for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {   
+            if (i == mat->row->elem[ind] && j == mat->col->elem[ind]) {
+                printf("%d ", mat->value->elem[ind]);
+                ind++;
+            } else {
+                printf("0 ");
+            }
 
-			indcol++;
-		}
-	}
-}*/
+            if (j == n - 1) {
+                printf("\n");
+            }
+        }
+    }
+
+    printf("\n");
+}
+
+matrix* transpose (matrix* mat, int m, int n) {
+	matrix* spmat = NULL;
+	spmat = matrix_create(spmat);
+	
+
+
+	return spmat;
+}
 
 
 void vector_free (vector* vec) { 
 	vec->size = 0;
     free(vec->elem);
-    vec->elem = NULL;
 }
 
 void matrix_free (matrix* mat) {
 	vector_free(mat->row);
 	vector_free(mat->col);
 	vector_free(mat->value);
+	free(mat->row);
+	free(mat->col);
+	free(mat->value);
+	free(mat);
 }
