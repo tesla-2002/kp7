@@ -10,14 +10,34 @@ int main(int argc, char* argv[]) {
 
     matrix* spmatrix = NULL;
     spmatrix = matrix_create(spmatrix);
+    int value = 0, m = 0, n = 0, indrow = 0, indcol = 0;
+    fscanf(input, "%d %d", &m, &n);
+    while (!feof(input)) {
+        if(!fscanf(input, "%d", &value)) {
+            printf("Некорректные данные файла\n");
+            exit(1);
+        }
+        
+        if(value != 0) {
+            vector_pushback(spmatrix->row, indrow);
+            vector_pushback(spmatrix->col, indcol);
+            vector_pushback(spmatrix->value, value);
+        }
 
-    spmatrix = get_matrix(input, spmatrix);
+        indcol++;
+        if(indcol == n) {
+            indrow++;
+            indcol = 0;
+        }
+    }
+
+    fclose(input);
 
     spmatrix_print(spmatrix);
 
-    matrix_free(spmatrix);
+    stdmatrix_print(spmatrix, m, n);
 
-    fclose(input);
+    matrix_free(spmatrix);
 
     return 0;
 }
