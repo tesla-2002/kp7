@@ -11,7 +11,11 @@ int main(int argc, char* argv[]) {
     matrix* spmatrix = NULL;
     spmatrix = matrix_create(spmatrix);
     int value = 0, m = 0, n = 0, indrow = 0, indcol = 0, temp = 0;
-    fscanf(input, "%d %d", &m, &n);
+    if (!fscanf(input, "%d %d", &m, &n)) {
+        printf("Некорректные данные файла\n");
+        exit(1);
+    }
+
     while (!feof(input)) {
         if(!fscanf(input, "%d", &value)) {
             printf("Некорректные данные файла\n");
@@ -37,7 +41,7 @@ int main(int argc, char* argv[]) {
 
     stdmatrix_print(spmatrix, m, n);
 
-    spmatrix = transpose(spmatrix, m , n);
+    spmatrix = transpose(spmatrix, m, n);
         temp = m;
         m = n;
         n = temp;
