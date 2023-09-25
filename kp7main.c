@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 
     matrix* spmatrix = NULL;
     spmatrix = matrix_create(spmatrix);
-    int value = 0, m = 0, n = 0, indrow = 0, indcol = 0;
+    int value = 0, m = 0, n = 0, indrow = 0, indcol = 0, temp = 0;
     fscanf(input, "%d %d", &m, &n);
     while (!feof(input)) {
         if(!fscanf(input, "%d", &value)) {
@@ -38,13 +38,18 @@ int main(int argc, char* argv[]) {
     stdmatrix_print(spmatrix, m, n);
 
     spmatrix = transpose(spmatrix, m , n);
-    int temp = 0;
         temp = m;
         m = n;
         n = temp;
     spmatrix_print(spmatrix);
 
     stdmatrix_print(spmatrix, m, n);
+
+    if (is_symmetric(spmatrix, m, n)) {
+        printf("yes\n");
+    } else {
+        printf("No\n");
+    }
 
     matrix_free(spmatrix);
 
