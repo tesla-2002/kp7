@@ -4,7 +4,7 @@ int main(int argc, char* argv[]) {
 
 	FILE* input = fopen(argv[1], "r");
 	if (!input) { 
-        printf("Не удалось открыть файл!\n");
+        printf("Не удалось открыть файл\n");
         exit(1);
     }
 
