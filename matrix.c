@@ -65,9 +65,9 @@ void stdmatrix_print (matrix* mat, int m, int n) {
 matrix* transpose (matrix* mat, int m, int n) {
 	matrix* spmat = NULL;
 	spmat = matrix_create(spmat);
-	int indrow = 0, indcol = 0, indvec = 0;
+	int indcol = 0, indvec = 0;
 
-	if(m == n) {
+	if (m == n) {
 		for (indcol = n - 1; indcol >= 0; indcol--) {
 			for(indvec = mat->col->size - 1; indvec >= 0; indvec--) {
 				if(mat->col->elem[indvec] == indcol) {
@@ -79,7 +79,7 @@ matrix* transpose (matrix* mat, int m, int n) {
 		}
 	}
 
-	if(n > m) {
+	if (n > m) {
 		for (indcol = m - 1; indcol >= 0; indcol--) {
 			for(indvec = mat->col->size - 1; indvec >= 0; indvec--) {
 				if(mat->col->elem[indvec] == indcol) {
@@ -101,25 +101,23 @@ matrix* transpose (matrix* mat, int m, int n) {
 		}
 	}
 
-	if(m > n) {
+	if (m > n) {
 		for (indcol = n - 1; indcol >= 0; indcol--) {
 			for(indvec = mat->col->size - 1; indvec >= 0; indvec--) {
-				if(mat->col->elem[indvec] == indcol) {
+				if(mat->col->elem[indvec] == indcol && mat->row->elem[indvec] < n) {
 					vector_pushback(spmat->row, n - indcol - 1);
 					vector_pushback(spmat->col, n - mat->row->elem[indvec] - 1);
 					vector_pushback(spmat->value, mat->value->elem[indvec]);
 				}
 			}
-
-			indrow = n;
-				for(indvec = 0; indvec < mat->row->size; indvec++) {
-					if(mat->col->elem[indvec] == n - 1 - indcol) {
-						vector_pushback(spmat->row, n - 1 - indcol);
-						vector_pushback(spmat->col, indrow);
-						vector_pushback(spmat->value, mat->value->elem[indvec]);
-						indrow ++;
-					}
+ 
+			for (indvec = 0; indvec < mat->row->size; indvec++) {
+				if(mat->col->elem[indvec] == n - indcol - 1 && mat->row->elem[indvec] < m && mat->row->elem[indvec] >= n) {
+					vector_pushback(spmat->row,	n - indcol - 1);
+					vector_pushback(spmat->col, mat->row->elem[indvec]);
+					vector_pushback(spmat->value, mat->value->elem[indvec]);
 				}
+			}
 			
 		}
 	}
