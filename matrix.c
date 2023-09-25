@@ -27,7 +27,7 @@ void vector_pushback (vector* vec, int value) {
 void vector_print(vector* vec) {
 	printf("(");
 	for(int i = 0; i < vec->size; i++) {
-		printf("%d ", vec->elem[i]);
+		printf("%3d ", vec->elem[i]);
 	}
 	printf(")\n");
 }
@@ -44,13 +44,13 @@ void stdmatrix_print (matrix* mat, int m, int n) {
 	for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {   
             if (i == mat->row->elem[ind] && j == mat->col->elem[ind]) {
-                printf("%d ", mat->value->elem[ind]);
+                printf("%3d ", mat->value->elem[ind]);
                 if (ind != mat->value->size - 1) {
                 	ind++;
                 }
 
             } else {
-                printf("0 ");
+                printf("%3d ", 0);
             }
 
             if (j == n - 1) {
@@ -156,12 +156,10 @@ bool is_symmetric (matrix* mat, int m, int n) {
 
 				flag = 0;
 			}
-
 		}
 	}
 
 	return true;
-
 }
 
 void vector_free (vector* vec) { 
