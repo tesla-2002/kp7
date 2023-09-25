@@ -24,29 +24,6 @@ void vector_pushback (vector* vec, int value) {
 	vec->elem[vec->size - 1] = value;
 }
 
-/*matrix* get_matrix (FILE* input, matrix* mat) {
-	int value = 0, m = 0, n = 0, indrow = 0, indcol = 0;
-	fscanf(input, "%d %d", &m, &n);
-
-	while (!feof(input)) {
-		fscanf(input, "%d", &value);
-		if(value != 0) {
-			vector_pushback(mat->row, indrow);
-			vector_pushback(mat->col, indcol);
-			vector_pushback(mat->value, value);
-		}
-
-		indcol++;
-		if(indcol == n) {
-			indrow++;
-			indcol = 0;
-		}
-
-	}
-
-	return mat;
-}*/
-
 void vector_print(vector* vec) {
 	printf("(");
 	for(int i = 0; i < vec->size; i++) {
@@ -68,7 +45,10 @@ void stdmatrix_print (matrix* mat, int m, int n) {
         for (int j = 0; j < n; j++) {   
             if (i == mat->row->elem[ind] && j == mat->col->elem[ind]) {
                 printf("%d ", mat->value->elem[ind]);
-                ind++;
+                if (ind != mat->value->size - 1) {
+                	ind++;
+                }
+
             } else {
                 printf("0 ");
             }
@@ -85,12 +65,68 @@ void stdmatrix_print (matrix* mat, int m, int n) {
 matrix* transpose (matrix* mat, int m, int n) {
 	matrix* spmat = NULL;
 	spmat = matrix_create(spmat);
+	int indrow = 0, indcol = 0, indvec = 0;
+
+	if(m == n) {
+		for (indcol = n - 1; indcol >= 0; indcol--) {
+			for(indvec = mat->col->size - 1; indvec >= 0; indvec--) {
+				if(mat->col->elem[indvec] == indcol) {
+					vector_pushback(spmat->row, n - indcol - 1);
+					vector_pushback(spmat->col, n - mat->row->elem[indvec] - 1);
+					vector_pushback(spmat->value, mat->value->elem[indvec]);
+				}
+			}
+		}
+	}
+
+	if(n > m) {
+		for (indcol = m - 1; indcol >= 0; indcol--) {
+			for(indvec = mat->col->size - 1; indvec >= 0; indvec--) {
+				if(mat->col->elem[indvec] == indcol) {
+					vector_pushback(spmat->row, m - indcol - 1);
+					vector_pushback(spmat->col, m - mat->row->elem[indvec] - 1);
+					vector_pushback(spmat->value, mat->value->elem[indvec]);
+				}
+			}
+		}
+
+		for (indcol = m; indcol < n; indcol++) {
+			for(indvec = 0; indvec < mat->row->size; indvec++) {
+				if(mat->col->elem[indvec] == indcol) {
+					vector_pushback(spmat->row, indcol);
+					vector_pushback(spmat->col, mat->row->elem[indvec]);
+					vector_pushback(spmat->value, mat->value->elem[indvec]);
+				}
+			}
+		}
+	}
+
+	if(m > n) {
+		for (indcol = n - 1; indcol >= 0; indcol--) {
+			for(indvec = mat->col->size - 1; indvec >= 0; indvec--) {
+				if(mat->col->elem[indvec] == indcol) {
+					vector_pushback(spmat->row, n - indcol - 1);
+					vector_pushback(spmat->col, n - mat->row->elem[indvec] - 1);
+					vector_pushback(spmat->value, mat->value->elem[indvec]);
+				}
+			}
+
+			indrow = n;
+				for(indvec = 0; indvec < mat->row->size; indvec++) {
+					if(mat->col->elem[indvec] == n - 1 - indcol) {
+						vector_pushback(spmat->row, n - 1 - indcol);
+						vector_pushback(spmat->col, indrow);
+						vector_pushback(spmat->value, mat->value->elem[indvec]);
+						indrow ++;
+					}
+				}
+			
+		}
+	}
 	
-
-
+	matrix_free(mat);
 	return spmat;
 }
-
 
 void vector_free (vector* vec) { 
 	vec->size = 0;
