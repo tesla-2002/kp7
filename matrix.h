@@ -16,6 +16,12 @@ typedef struct {
 	vector* value;
 } matrix;
 
+typedef enum {
+    PRINTSP = 1,
+    PRINTSTD = 2,
+    TRANSPOSE = 3,
+    CHECK = 4
+} var_flags;
 
 vector* vector_create (vector* vec);
 matrix* matrix_create (matrix* mat);
