@@ -2,6 +2,11 @@
 
 int main(int argc, char* argv[]) {
 
+    if (argc != 2) {
+        printf("Введите:\n%s ./file_txt \n", argv[0]);
+        exit(0);
+    }
+
 	FILE* input = fopen(argv[1], "r");
 	if (!input) { 
         printf("Не удалось открыть файл\n");
@@ -10,7 +15,7 @@ int main(int argc, char* argv[]) {
 
     matrix* spmatrix = NULL;
     spmatrix = matrix_create(spmatrix);
-    int value = 0, m = 0, n = 0, indrow = 0, indcol = 0, temp = 0;
+    int value = 0, m = 0, n = 0, indrow = 0, indcol = 0, temp = 0, flag = 0;
     if (!fscanf(input, "%d %d", &m, &n)) {
         printf("Некорректные данные файла\n");
         exit(1);
@@ -37,25 +42,40 @@ int main(int argc, char* argv[]) {
 
     fclose(input);
 
-    spmatrix_print(spmatrix);
+    while (1) {
+        printf("Что Вы хотите сделать?\n [1]-Вывести разреженную матрицу\n [2]-Вывести матрицу в привычном виде\n\
+ [3]-Транспонировать матрицу отн. побочн. диагонали\n [4]-Проверить, является ли она кососимметрической\n\
+ [0]-Завершить\n");
+        fscanf(stdin, "%d", &flag);
 
-    stdmatrix_print(spmatrix, m, n);
+        switch (flag) {
+            case PRINTSP:
+                spmatrix_print(spmatrix);
+                break;
 
-    spmatrix = transpose(spmatrix, m, n);
-        temp = m;
-        m = n;
-        n = temp;
-    spmatrix_print(spmatrix);
+            case PRINTSTD:
+                stdmatrix_print(spmatrix, m, n);
+                break;
 
-    stdmatrix_print(spmatrix, m, n);
+            case TRANSPOSE:
+                spmatrix = transpose(spmatrix, m, n);
+                temp = m;
+                m = n;
+                n = temp;
+                break;
 
-    if (is_symmetric(spmatrix, m, n)) {
-        printf("yes\n");
-    } else {
-        printf("No\n");
+            case CHECK:
+                if (is_symmetric(spmatrix, m, n)) {
+                    printf("Да, эта матрица - кососимметрическая\n");
+                } else {
+                    printf("Нет, эта матрица не явл. кососимметрической\n");
+                }
+                
+                break;
+
+            default:
+                matrix_free(spmatrix);
+                return 0;
+        }
     }
-
-    matrix_free(spmatrix);
-
-    return 0;
 }
