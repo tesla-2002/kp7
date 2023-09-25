@@ -37,6 +37,15 @@ int main(int argc, char* argv[]) {
 
     stdmatrix_print(spmatrix, m, n);
 
+    spmatrix = transpose(spmatrix, m , n);
+    int temp = 0;
+        temp = m;
+        m = n;
+        n = temp;
+    spmatrix_print(spmatrix);
+
+    stdmatrix_print(spmatrix, m, n);
+
     matrix_free(spmatrix);
 
     return 0;
