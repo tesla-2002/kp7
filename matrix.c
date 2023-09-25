@@ -126,6 +126,44 @@ matrix* transpose (matrix* mat, int m, int n) {
 	return spmat;
 }
 
+bool is_symmetric (matrix* mat, int m, int n) {
+	if (m != n) {
+		return false;
+	} 
+
+	int indcol = 0, indvec = 0, indvec1 = 0, flag = 0;
+	for (indcol = 0; indcol < n/2; indcol++) {
+		for (indvec = 0; indvec < mat->row->size; indvec++) {
+			if (mat->row->elem[indvec] == mat->col->elem[indvec]) {
+				return false;
+			}
+
+			if (mat->row->elem[indvec] == indcol && mat->col->elem[indvec] == n - 1 - indcol) {
+				for (indvec1 = 0; indvec1 < mat->row->size; indvec1++) {
+					if (mat->col->elem[indvec1] == indcol && mat->row->elem[indvec1] == n - 1 - indcol) {
+						flag = 1;
+						if (mat->value->elem[indvec] != (-1) * mat->value->elem[indvec1]) {
+							return false;
+						} else {
+							break;
+						}
+					}
+				}
+
+				if (flag == 0) {
+					return false;
+				}
+
+				flag = 0;
+			}
+
+		}
+	}
+
+	return true;
+
+}
+
 void vector_free (vector* vec) { 
 	vec->size = 0;
     free(vec->elem);
