@@ -26,6 +26,7 @@ void stdmatrix_print (matrix* mat, int m, int n);
 void vector_free (vector* vec);
 void matrix_free (matrix* mat);
 matrix* transpose (matrix* mat, int m, int n);
+bool is_symmetric (matrix* mat, int m, int n);
 
 
 #endif
