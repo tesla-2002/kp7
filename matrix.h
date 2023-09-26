@@ -11,9 +11,9 @@ typedef struct {
 } vector;
 
 typedef struct {
-	vector* row;
-	vector* col;
-	vector* value;
+	vector* row; //Вектор хранит значения ИНДЕКСОВ СТРОК КАЖДОГО ИЗ ЭЛЕМЕНТОВ
+	vector* col; //Вектор хранит значения ИНДЕКСОВ СТОЛБЦОВ КАЖДОГО ИЗ ЭЛЕМЕНТОВ
+	vector* value; //Вектор хранит значения элементов матрицы
 } matrix;
 
 typedef enum {
